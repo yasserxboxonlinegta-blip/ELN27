@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EES - Électronique et Systèmes Embarqués</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-bg {
+            background: linear-gradient(rgba(17, 24, 39, 0.85), rgba(17, 24, 39, 0.85)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920') no-repeat center center/cover;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 font-sans antialiased">
+
+    <nav class="fixed w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-microchip text-indigo-400 text-3xl animate__animated animate__pulse animate__infinite"></i>
+            <span class="text-2xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-blue-400 bg-clip-text text-transparent">EES Platform</span>
+        </div>
+        <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-300">
+            <a href="#home" class="hover:text-indigo-400 transition">Accueil</a>
+            <a href="#etudiants" class="hover:text-indigo-400 transition">Étudiants</a>
+            <a href="#delege" class="hover:text-indigo-400 transition">Délégué</a>
+            <a href="#modules" class="hover:text-indigo-400 transition">Modules</a>
+            <a href="#chat" class="hover:text-indigo-400 transition">Chat</a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button onclick="openAuthModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-full text-sm font-semibold transition shadow-lg shadow-indigo-500/20">
+                Connexion / Inscription
+            </button>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-center px-6 pt-20">
+        <div class="max-w-4xl animate__animated animate__fadeInUp">
+            <span class="text-indigo-400 tracking-widest uppercase text-sm font-semibold mb-4 block">Département Universitaire</span>
+            <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6 bg-gradient-to-r from-white via-gray-200 to-indigo-400 bg-clip-text text-transparent">
+                Électronique et Systèmes Embarqués
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+                Plateforme officielle pour les étudiants, partage de cours, espace de discussion et élection du délégué de la promotion.
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#etudiants" class="bg-white text-gray-900 px-7 py-3.5 rounded-full font-semibold hover:bg-gray-100 transition">Rejoindre la liste</a>
+                <a href="#modules" class="border border-gray-700 hover:border-gray-500 text-gray-300 px-7 py-3.5 rounded-full font-semibold transition">Voir les Modules</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="etudiants" class="py-20 px-6 max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold text-center mb-4">Liste des Étudiants</h2>
+        <p class="text-center text-gray-400 mb-12">Découvrez les membres de la promotion EES.</p>
+
+        <div class="glass-card max-w-lg mx-auto p-8 rounded-2xl mb-12">
+            <h3 class="text-xl font-semibold mb-6 text-indigo-400">Rejoindre la promotion</h3>
+            <form id="joinForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Prénom</label>
+                    <input type="text" id="joinFirstName" required class="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500 text-gray-200">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Nom</label>
+                    <input type="text" id="joinLastName" required class="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500 text-gray-200">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-semibold transition">
+                    Soumettre la demande
+                </button>
+            </form>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="studentsGrid">
+            </div>
+    </section>
+
+    <section id="delege" class="bg-gray-900 py-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-4">Délégué de la Promotion</h2>
+            <p class="text-gray-400 mb-12">Votre représentant actuel et espace d'élections.</p>
+
+            <div class="glass-card p-10 rounded-3xl max-w-2xl mx-auto mb-12">
+                <i class="fa-solid fa-user-tie text-5xl text-indigo-400 mb-4"></i>
+                <h3 class="text-3xl font-extrabold mb-2" id="currentDelegeName">Chargement...</h3>
+                <p class="text-gray-400 text-sm">Délégué en fonction</p>
+
+                <div class="mt-8">
+                    <button id="voteRequestBtn" onclick="requestVote()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-8 py-3 rounded-full transition shadow-lg shadow-indigo-500/30">
+                        Demander un vote (0/5)
+                    </button>
+                </div>
+            </div>
+
+            <div id="voteSection" class="glass-card p-8 rounded-3xl hidden">
+                <h4 class="text-2xl font-bold mb-4 text-indigo-400">Élection en cours</h4>
+                <p class="text-gray-400 mb-6" id="voteTimer">Le vote se termine dans : --:--:--</p>
+                <div class="space-y-4" id="voteCandidatesList"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="modules" class="py-20 px-6 max-w-6xl mx-auto">
+        <h2 class="text-4xl font-bold mb-4 text-center">Modules Académiques</h2>
+        <p class="text-center text-gray-400 mb-12">Accédez aux leçons, exercices et professeurs de chaque module.</p>
+
+        <div class="glass-card max-w-2xl mx-auto p-8 rounded-2xl mb-12">
+            <h3 class="text-xl font-semibold mb-6 text-indigo-400">Ajouter un nouveau module</h3>
+            <form id="addModuleForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Nom du module</label>
+                    <input type="text" id="moduleName" required class="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Professeur</label>
+                    <input type="text" id="profName" required class="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-semibold transition">
+                    Créer le module
+                </button>
+            </form>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="modulesGrid">
+            </div>
+    </section>
+
+    <section id="chat" class="bg-gray-900 py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Espace de Discussion Privé</h2>
+            <p class="text-center text-gray-400 mb-12">Discutez en temps réel avec vos collègues EES.</p>
+
+            <div id="chatAuthPanel" class="glass-card p-10 rounded-3xl text-center max-w-md mx-auto">
+                <i class="fa-solid fa-lock text-5xl text-gray-500 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Accès restreint aux membres</h3>
+                <p class="text-gray-400 text-sm mb-6">Connectez-vous pour rejoindre le canal de discussion.</p>
+                <button onclick="openAuthModal()" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold w-full">S'identifier</button>
+            </div>
+
+            <div id="chatWindow" class="hidden glass-card rounded-3xl overflow-hidden h-[500px] flex flex-col">
+                <div class="p-4 bg-gray-950/50 border-b border-gray-800 flex items-center justify-between">
+                    <span class="font-semibold text-indigo-400"><i class="fa-solid fa-circle text-green-400 text-xs mr-2"></i> EES Chat général</span>
+                    <span class="text-xs text-gray-500" id="chatUserDisplay">Connecté</span>
+                </div>
+                <div class="flex-1 p-6 overflow-y-auto space-y-4" id="messagesArea">
+                    </div>
+                <div class="p-4 bg-gray-950/50 border-t border-gray-800 flex gap-4">
+                    <input type="text" id="chatInput" placeholder="Écrivez un message..." class="flex-1 bg-gray-950 rounded-xl px-4 py-3 text-sm border border-gray-800 focus:outline-none focus:border-indigo-500">
+                    <button onclick="sendMessage()" class="bg-indigo-600 px-6 rounded-xl hover:bg-indigo-500 transition text-white">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="authModal" class="fixed inset-0 bg-black/80 z-50 items-center justify-center hidden">
+        <div class="bg-gray-900 p-8 rounded-3xl max-w-md w-full mx-6 border border-gray-800">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-white">Authentification</h3>
+                <button onclick="closeAuthModal()" class="text-gray-400 hover:text-gray-100">&times;</button>
+            </div>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Mot de passe admin</label>
+                    <input type="password" id="adminPassword" required class="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-semibold">
+                    Connexion
+                </button>
+            </form>
+            
+            <div id="approvalPanel" class="mt-6 hidden">
+                <h4 class="font-semibold text-indigo-400 mb-4">Demandes en attente :</h4>
+                <div id="pendingList" class="space-y-2 max-h-60 overflow-y-auto"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-t border-gray-900 py-10 text-center text-gray-500 text-sm">
+        <p>&copy; 2026 Département EES. Tous droits réservés.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
